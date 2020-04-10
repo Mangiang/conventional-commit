@@ -16,5 +16,6 @@ export const add_files = async () => {
         const response: CmdResponse = addFiles(path);
         if (response.error) { window.showErrorMessage(response.error.message); }
         if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
+        if (response.stdout) { window.showInformationMessage(response.stdout.toString('utf-8')); }
     }
 };

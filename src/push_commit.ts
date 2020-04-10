@@ -26,5 +26,6 @@ export const push_commit = async () => {
         const response: CmdResponse = push(remote, branch);
         if (response.error) { window.showErrorMessage(response.error.message); }
         if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
+        if (response.stdout) { window.showInformationMessage(response.stdout.toString('utf-8')); }
     }
 };
