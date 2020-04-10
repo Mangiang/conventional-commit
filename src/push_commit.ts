@@ -1,6 +1,7 @@
 import { push, getCurrentBranch } from './gitCommands';
 
 import { window } from 'vscode';
+import { CmdResponse } from './execution';
 
 
 export const push_commit = async () => {
@@ -22,6 +23,8 @@ export const push_commit = async () => {
     });
     if (remote && branch) {
         window.showInformationMessage(`Pushing ${branch} to ${remote}`);
-        push(remote, branch);
+        const response: CmdResponse = push(remote, branch);
+        if (response.error) { window.showErrorMessage(response.error.message); }
+        if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
     }
 };

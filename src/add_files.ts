@@ -1,7 +1,7 @@
 import { addFiles } from './gitCommands';
-
-import { window } from 'vscode';
-
+import { CmdResponse } from './execution';
+import { window, workspace } from 'vscode';
+import { join } from 'path';
 
 export const add_files = async () => {
     const path = await window.showInputBox({
@@ -12,7 +12,9 @@ export const add_files = async () => {
         }
     });
     if (path) {
-        window.showInformationMessage(`Adding all files in : ${path}`);
-        addFiles(path);
+        window.showInformationMessage(`Adding all files in : ${join(workspace.rootPath!!, path)}`);
+        const response: CmdResponse = addFiles(path);
+        if (response.error) { window.showErrorMessage(response.error.message); }
+        if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
     }
 };
