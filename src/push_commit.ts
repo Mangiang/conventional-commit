@@ -1,10 +1,10 @@
 import { push, getCurrentBranch } from './gitCommands';
 
-import { window } from 'vscode';
+import { window, StatusBarItem } from 'vscode';
 import { CmdResponse } from './execution';
 
 
-export const push_commit = async () => {
+export const push_commit = async (statusBar: StatusBarItem) => {
     const remote = await window.showInputBox({
         value: 'origin',
         placeHolder: 'Enter remote',
@@ -23,8 +23,11 @@ export const push_commit = async () => {
     });
     if (remote && branch) {
         window.showInformationMessage(`Pushing ${branch} to ${remote}`);
+        statusBar.text = "Pushing ...";
+        statusBar.show();
         const response: CmdResponse = push(remote, branch);
-        if (response.status !== 0){
+        statusBar.hide();
+        if (response.status !== 0) {
             if (response.error) { window.showErrorMessage(response.error.message); }
             if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
             return;
