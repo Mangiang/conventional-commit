@@ -11,7 +11,7 @@ let myStatusBarItem: StatusBarItem;
 // your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
 	myStatusBarItem = window.createStatusBarItem(StatusBarAlignment.Right, 100);
-
+	context.subscriptions.push(myStatusBarItem);
 
 	context.subscriptions.push(commands.registerCommand('conventional-commit.commit', async () => {
 		if (!workspace.rootPath) {
