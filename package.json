@@ -12,6 +12,7 @@
 	"activationEvents": [
 		"onCommand:conventional-commit.commit"
 	],
+	"publisher": "mangiang",
 	"license": "MIT",
 	"main": "./out/extension.js",
 	"contributes": {
@@ -22,8 +23,9 @@
 			}
 		]
 	},
+	"repository": "http://192.168.0.172:30000/shirito/conventional-commit",
 	"scripts": {
-		"vscode:prepublish": "yarn run compile",
+		"vscode:prepublish": "yarn --ignore-engines run compile",
 		"compile": "tsc -p ./",
 		"lint": "eslint src --ext ts",
 		"watch": "tsc -watch -p ./",
