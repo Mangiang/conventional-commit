@@ -24,8 +24,12 @@ export const push_commit = async () => {
     if (remote && branch) {
         window.showInformationMessage(`Pushing ${branch} to ${remote}`);
         const response: CmdResponse = push(remote, branch);
-        if (response.error) { window.showErrorMessage(response.error.message); }
-        if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
+        if (response.status !== 0){
+            if (response.error) { window.showErrorMessage(response.error.message); }
+            if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
+            return;
+        }
+        if (response.stderr) { window.showInformationMessage(response.stderr.toString('utf-8')); }
         if (response.stdout) { window.showInformationMessage(response.stdout.toString('utf-8')); }
     }
 };
