@@ -10,6 +10,5 @@ export const useProgressBar = (title: string = 'Loading ...',
         title: `[Conventional-commit] ${title}`
     }, async (progress) => {
         await promise;
-        progress.report({ increment: 100 });
     });
 };
