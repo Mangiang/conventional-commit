@@ -3,6 +3,7 @@
 import { window, commands, ExtensionContext } from 'vscode';
 import { create_commit } from './create_commit';
 import { add_files } from './add_files';
+import { push_commit } from './push_commit';
 
 
 // this method is called when your extension is activated
@@ -11,7 +12,8 @@ export function activate(context: ExtensionContext) {
 	context.subscriptions.push(commands.registerCommand('conventional-commit.commit', async () => {
 		const options: { [key: string]: (context: ExtensionContext) => Promise<void> } = {
 			'Create Commit': create_commit,
-			'Add Files': add_files
+			'Add Files': add_files,
+			'Push Commit': push_commit
 		};
 		const quickPick = window.createQuickPick();
 		quickPick.items = Object.keys(options).map((label: string) => ({ label }));

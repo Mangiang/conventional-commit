@@ -1,5 +1,5 @@
 import { QuickPickItem, window, Disposable, QuickInputButton, QuickInput, QuickInputButtons } from 'vscode';
-import { commit } from './gitCommands'
+import { commit } from './gitCommands';
 
 export const create_commit = async () => {
     const title = 'Create commit';
@@ -11,7 +11,7 @@ export const create_commit = async () => {
         'Style': 'style',
         'Chore': 'chore',
         'CI': 'ci'
-    }
+    };
 
     const commitTypes: QuickPickItem[] = ['Feature', 'Bug fix', 'Build', 'Refactorization', 'Style', 'Chore', 'CI']
         .map(label => ({ label }));
@@ -26,7 +26,7 @@ export const create_commit = async () => {
         const state = {} as Partial<State>;
         await MultiStepInput.run(input => pickCommitType(input, state));
         return state as State;
-    }
+    };
 
     const pickCommitType = async (input: MultiStepInput, state: Partial<State>) => {
         const pick = await input.showQuickPick({
@@ -40,7 +40,7 @@ export const create_commit = async () => {
         });
         state.commitType = commitShortType[pick.label];
         return (input: MultiStepInput) => pickCommitScope(input, state);
-    }
+    };
 
     const pickCommitScope = async (input: MultiStepInput, state: Partial<State>) => {
         state.scope = await input.showInputBox({
@@ -53,11 +53,11 @@ export const create_commit = async () => {
             shouldResume: shouldResume
         });
         return (input: MultiStepInput) => pickCommitMessage(input, state);
-    }
+    };
 
     const validateIsValidScope = async (name: string) => {
         return name.match(/[\w_-]+/) ? undefined : 'Scope is not valid';
-    }
+    };
 
     const pickCommitMessage = async (input: MultiStepInput, state: Partial<State>) => {
         state.message = await input.showInputBox({
@@ -69,24 +69,24 @@ export const create_commit = async () => {
             validate: validateIsValidMessage,
             shouldResume: shouldResume
         });
-    }
+    };
 
     const validateIsValidMessage = async (name: string) => {
         return name.match(/[\w_-\s]+/) ? undefined : 'Message is not valid';
-    }
+    };
 
     const shouldResume = () => {
         // Could show a notification with the option to resume.
         return new Promise<boolean>((resolve, reject) => {
 
         });
-    }
+    };
 
     const state = await collectInputs();
-    const commitName = `${state.commitType}(${state.scope}): ${state.message}`
+    const commitName = `${state.commitType}(${state.scope}): ${state.message}`;
     window.showInformationMessage(`Creating commit ${commitName}`);
-    commit(commitName)
-}
+    commit(commitName);
+};
 
 
 
