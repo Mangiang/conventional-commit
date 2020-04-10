@@ -1,6 +1,6 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import { window, commands, ExtensionContext } from 'vscode';
+import { window, commands, ExtensionContext, workspace } from 'vscode';
 import { create_commit } from './create_commit';
 import { add_files } from './add_files';
 import { push_commit } from './push_commit';
@@ -10,6 +10,11 @@ import { push_commit } from './push_commit';
 // your extension is activated the very first time the command is executed
 export function activate(context: ExtensionContext) {
 	context.subscriptions.push(commands.registerCommand('conventional-commit.commit', async () => {
+		if (!workspace.rootPath) {
+			window.showErrorMessage("Path invalid you need to open a folder first");
+			return;
+		}
+
 		const options: { [key: string]: (context: ExtensionContext) => Promise<void> } = {
 			'Create Commit': create_commit,
 			'Add Files': add_files,

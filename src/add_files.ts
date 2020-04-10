@@ -18,4 +18,7 @@ export const add_files = async () => {
         if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
         if (response.stdout) { window.showInformationMessage(response.stdout.toString('utf-8')); }
     }
+    else {
+        add_files();
+    }
 };
