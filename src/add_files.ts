@@ -1,9 +1,11 @@
-import { addFiles } from './gitCommands';
-import { CmdResponse } from './execution';
-import { window, workspace, StatusBarItem } from 'vscode';
+import { addFiles } from './utils/gitCommands';
+import { CmdResponse } from './utils/execution';
+import { window, workspace, ProgressLocation } from 'vscode';
 import { join } from 'path';
+import { resolve } from 'dns';
+import { useProgressBar } from './utils/useProgressBar';
 
-export const add_files = async (statusBar: StatusBarItem) => {
+export const add_files = async () => {
     const path = await window.showInputBox({
         value: '.',
         placeHolder: 'Enter the folder to add to the commit',
@@ -12,17 +14,16 @@ export const add_files = async (statusBar: StatusBarItem) => {
         }
     });
     if (path) {
-        window.showInformationMessage(`Adding all files in : ${join(workspace.rootPath!!, path)}`);
-        statusBar.text = "Adding files";
-        statusBar.show();
-        const response: CmdResponse = addFiles(path);
-        statusBar.hide();
-        if (response.status !== 0) {
-            if (response.error) { window.showErrorMessage(response.error.message); }
-            if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
-            return;
-        }
-        if (response.stderr) { window.showInformationMessage(response.stderr.toString('utf-8')); }
-        if (response.stdout) { window.showInformationMessage(response.stdout.toString('utf-8')); }
+        useProgressBar("Adding files ...", false, new Promise(resolve => {
+            const response: CmdResponse = addFiles(path);
+            if (response.status !== 0) {
+                if (response.error) { window.showErrorMessage(response.error.message); }
+                if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
+                return;
+            }
+            if (response.stderr) { window.showInformationMessage(response.stderr.toString('utf-8')); }
+            if (response.stdout) { window.showInformationMessage(response.stdout.toString('utf-8')); }
+            resolve();
+        }));
     }
 };
