@@ -90,6 +90,7 @@ export const create_commit = async () => {
     const response: CmdResponse = commit(commitName);
     if (response.error) { window.showErrorMessage(response.error.message); }
     if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
+    if (response.stdout) { window.showInformationMessage(response.stdout.toString('utf-8')); }
 };
 
 
