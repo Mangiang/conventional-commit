@@ -1,7 +1,6 @@
 # conventional-commit README
 
 ## Features
-
 * Create commit and forge its name
 * Add files to commit
 * Push commit
