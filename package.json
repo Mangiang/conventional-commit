@@ -2,7 +2,7 @@
 	"name": "conventional-commit",
 	"displayName": "conventional-commit",
 	"description": "An extension to enforce conventional-commits compliant commits",
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"engines": {
 		"vscode": "^1.44.0"
 	},
