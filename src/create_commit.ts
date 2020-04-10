@@ -95,6 +95,7 @@ export const create_commit = async () => {
         if (response.status !== 0) {
             if (response.error) { window.showErrorMessage(response.error.message); }
             if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
+            resolve();
             return;
         }
         if (response.stderr) { window.showInformationMessage(response.stderr.toString('utf-8')); }

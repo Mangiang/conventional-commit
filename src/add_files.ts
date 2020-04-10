@@ -19,10 +19,10 @@ export const add_files = async () => {
             if (response.status !== 0) {
                 if (response.error) { window.showErrorMessage(response.error.message); }
                 if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
-                return;
+                resolve();
             }
-            if (response.stderr) { window.showInformationMessage(response.stderr.toString('utf-8')); }
-            if (response.stdout) { window.showInformationMessage(response.stdout.toString('utf-8')); }
+            if (response.stderr) { window.setStatusBarMessage(response.stderr.toString('utf-8'), 5000); }
+            if (response.stdout) { window.setStatusBarMessage(response.stdout.toString('utf-8'), 5000); }
             resolve();
         }));
     }
