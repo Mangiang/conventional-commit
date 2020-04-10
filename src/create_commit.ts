@@ -1,8 +1,8 @@
-import { QuickPickItem, window, Disposable, QuickInputButton, QuickInput, QuickInputButtons } from 'vscode';
+import { QuickPickItem, window, Disposable, QuickInputButton, QuickInput, QuickInputButtons, StatusBarItem } from 'vscode';
 import { commit } from './gitCommands';
 import { CmdResponse } from './execution';
 
-export const create_commit = async () => {
+export const create_commit = async (statusBar: StatusBarItem) => {
     const title = 'Create commit';
 
     const commitShortType: Record<string, string> = {
@@ -86,9 +86,12 @@ export const create_commit = async () => {
     const state = await collectInputs();
     const commitName = `${state.commitType}(${state.scope}): ${state.message}`;
     window.showInformationMessage(`Creating commit ${commitName}`);
-    
+
+    statusBar.text = "Commit ...";
+    statusBar.show();
     const response: CmdResponse = commit(commitName);
-    if (response.status !== 0){
+    statusBar.hide();
+    if (response.status !== 0) {
         if (response.error) { window.showErrorMessage(response.error.message); }
         if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
         return;
