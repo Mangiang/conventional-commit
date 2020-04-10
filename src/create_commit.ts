@@ -88,8 +88,12 @@ export const create_commit = async () => {
     window.showInformationMessage(`Creating commit ${commitName}`);
     
     const response: CmdResponse = commit(commitName);
-    if (response.error) { window.showErrorMessage(response.error.message); }
-    if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
+    if (response.status !== 0){
+        if (response.error) { window.showErrorMessage(response.error.message); }
+        if (response.stderr) { window.showErrorMessage(response.stderr.toString('utf-8')); }
+        return;
+    }
+    if (response.stderr) { window.showInformationMessage(response.stderr.toString('utf-8')); }
     if (response.stdout) { window.showInformationMessage(response.stdout.toString('utf-8')); }
 };
 
